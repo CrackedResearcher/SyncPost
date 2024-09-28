@@ -39,7 +39,7 @@ const Callback = () => {
     if (data.access_token) {
       localStorage.setItem('linkedinAccessToken', data.access_token);
       setStatus('LinkedIn access token stored successfully!');
-      setTimeout(() => { window.location.href = '/'; }, 2000);
+      setTimeout(() => { window.location.href = '/guide'; }, 2000);
     } else {
       throw new Error('No access token received');
     }

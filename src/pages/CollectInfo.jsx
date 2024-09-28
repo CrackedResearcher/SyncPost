@@ -13,30 +13,10 @@ const CollectInfo = () => {
   });
   const [apiKey, setApiKey] = useState("");
   const [jinaApiKey, setJinaApiKey] = useState(""); // New state for Jina AI API key
-  const [tokenType, setTokenType] = useState(""); // For selecting the token type
-  const [refreshToken, setRefreshToken] = useState(""); // For entering the refresh token
-  const [tokens, setTokens] = useState(
-    JSON.parse(localStorage.getItem("tokens")) || {} // Load saved tokens from local storage
-  );
-
-  const handleTokenSave = () => {
-    if (tokenType && refreshToken) {
-      // Save the new token in local state
-      const updatedTokens = { ...tokens, [tokenType]: refreshToken };
-      setTokens(updatedTokens);
-
-      // Save to local storage
-      localStorage.setItem("tokens", JSON.stringify(updatedTokens));
-    }
-  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // Save the token type and value before submitting
-    handleTokenSave();
-
-    // Store other data in local storage
     localStorage.setItem("socialMediaIds", JSON.stringify(socialMediaIds));
     localStorage.setItem("apiKey", apiKey);
     localStorage.setItem("jinaApiKey", jinaApiKey); // Store Jina AI API key
@@ -48,8 +28,6 @@ const CollectInfo = () => {
     });
     setApiKey("");
     setJinaApiKey(""); // Reset Jina AI API key
-    setTokenType(""); // Reset token type
-    setRefreshToken(""); // Reset refresh token
 
     alert("Data submitted successfully!");
     navigate("/open");
@@ -71,9 +49,7 @@ const CollectInfo = () => {
     });
     setApiKey("");
     setJinaApiKey(""); // Reset Jina AI API key
-    setTokenType(""); // Reset token type
-    setRefreshToken(""); // Reset refresh token
-    setTokens({}); // Clear tokens state
+
 
     alert("Local storage cleared!");
   };
@@ -158,7 +134,7 @@ const CollectInfo = () => {
         {/* Compact Token Type and Input */}
         <div className="mb-4">
           <label className="block text-gray-700 mb-2">
-            Refresh tokens: (generate these{" "}
+            Refresh tokens (imp) → generate these{" "}
             <Link
               to="/guide"
               className="text-green-600 underline"
@@ -167,32 +143,9 @@ const CollectInfo = () => {
             >
               here
             </Link>
-            )
+            
           </label>
-          <div className="flex">
-            <select
-              value={tokenType}
-              onChange={(e) => setTokenType(e.target.value)}
-              required
-              className="border border-gray-200 rounded-l-lg p-2 w-2/5 text-sm"
-            >
-              <option value="" disabled>
-                Select token type
-              </option>
-              <option value="twitter">Twitter</option>
-              <option value="linkedin">LinkedIn</option>
-              <option value="medium">Medium</option>
-            </select>
-            <input
-              type="text"
-              placeholder="Enter Token"
-              value={refreshToken}
-              onChange={(e) => setRefreshToken(e.target.value)}
-              required
-              className="border border-l-0 border-gray-300 rounded-r-lg p-2 w-3/5 focus:border-green-600"
-              onBlur={handleTokenSave} // Save the token when user finishes entering the token
-            />
-          </div>
+         
         </div>
 
         <button
