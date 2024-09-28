@@ -131,141 +131,90 @@ You will not reply with anything other than the repurposed blog post.`;
   };
 
   const postToTwitterLogic = async (tweetContent) => {
-    const accessToken = localStorage.getItem("twitterAccessToken");
     try {
-      const response = await fetch('https://api.twitter.com/2/tweets', {
+      const accessToken = localStorage.getItem("twitterAccessToken");
+      const response = await fetch('/api/postToTwitter', {
         method: 'POST',
         headers: {
-          Authorization: `Bearer ${accessToken}`,
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          text: tweetContent,
-        }),
+        body: JSON.stringify({ tweetContent, accessToken }),
       });
   
       if (!response.ok) {
-        throw new Error(`Failed to post to Twitter: ${response.statusText}`);
+        throw new Error('Failed to post to Twitter');
       }
   
       const result = await response.json();
-      console.log("Posted to Twitter successfully:", result);
-      return result;
-    } catch (err) {
-      console.error("Failed to post to Twitter:", err);
-      return null;
+      console.log('Posted to Twitter successfully:', result);
+      return result; // Return result for further checks
+    } catch (error) {
+      console.error('Error posting to Twitter:', error);
+      throw error; // Rethrow to handle in the main function
     }
   };
-
-    const postToLinkedInLogic = async (postContent) => {
-      const socialMediaIds = JSON.parse(localStorage.getItem("socialMediaIds") || "{}");
-      const accessToken = localStorage.getItem("linkedinAccessToken");
-    
+  
+  const postToLinkedInLogic = async (postContent) => {
+    try {
+      const accessToken = localStorage.getItem('linkedinAccessToken');
+      const socialMediaIds = JSON.parse(localStorage.getItem('socialMediaIds') || "{}");
       const linkedinId = socialMediaIds.linkedin;
-    
+  
       if (!linkedinId) {
-        console.error("LinkedIn ID not found.");
-        return null;
+        throw new Error('LinkedIn ID not found.');
       }
-    
-      const postData = {
-        author: `urn:li:person:${linkedinId}`, 
-        lifecycleState: "PUBLISHED",
-        specificContent: {
-          "com.linkedin.ugc.ShareContent": {
-            shareCommentary: {
-              text: postContent,
-            },
-            shareMediaCategory: "NONE", 
-          },
+  
+      const response = await fetch('/api/postToLinkedIn', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
         },
-        visibility: {
-          "com.linkedin.ugc.MemberNetworkVisibility": "PUBLIC", 
-        },
-      };
-    
-      try {
-        const response = await fetch("https://api.linkedin.com/v2/ugcPosts", {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${accessToken}`, 
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(postData),
-        });
-    
-        if (!response.ok) {
-          const errorData = await response.json();
-          throw new Error(`Error: ${errorData.message}`);
-        }
-    
-        console.log("Posted to LinkedIn successfully.");
-        return true; // Indicate success
-      } catch (err) {
-        console.error("Failed to post to LinkedIn:", err);
-        return null; // Indicate failure
+        body: JSON.stringify({ postContent, accessToken, linkedinId }),
+      });
+  
+      if (!response.ok) {
+        throw new Error('Failed to post to LinkedIn');
       }
-    };
-
-    const postToMediumLogic = async (postContent) => {
-      const tokens = JSON.parse(localStorage.getItem("tokens") || "{}");
-
-      const mediumToken = tokens.medium;
-    
+  
+      const result = await response.json();
+      console.log('Posted to LinkedIn successfully:', result);
+      return result; // Return result for further checks
+    } catch (error) {
+      console.error('Error posting to LinkedIn:', error);
+      throw error; // Rethrow to handle in the main function
+    }
+  };
+  
+  const postToMediumLogic = async (postContent) => {
+    try {
+      const tokens = JSON.parse(localStorage.getItem('tokens') || "{}");
+      const mediumToken = tokens.mediumToken;
+  
       if (!mediumToken) {
-        console.error("Medium token not found.");
-        return null;
+        throw new Error('Medium token not found.');
       }
-    
-      try {
-        const userResponse = await fetch("https://api.medium.com/v1/me", {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${mediumToken}`,
-          },
-        });
-    
-        if (!userResponse.ok) {
-          throw new Error("Failed to fetch Medium user details.");
-        }
-    
-        const userData = await userResponse.json();
-        const userId = userData.data.id; 
-    
-        const postData = {
-          title: "Your Post Title", 
-          contentFormat: "text", // Can be 'html' or 'markdown'
-          content: postContent, // The content of your post
-          canonicalUrl: "", // Optional: Canonical URL of your post
-          tags: [], // Optional: Tags for your post
-          publishStatus: "public", // Can be 'public', 'draft', or 'unlisted'
-        };
-    
-        const postResponse = await fetch(
-          `https://api.medium.com/v1/users/${userId}/posts`,
-          {
-            method: "POST",
-            headers: {
-              Authorization: `Bearer ${mediumToken}`,
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(postData),
-          }
-        );
-    
-        if (!postResponse.ok) {
-          const errorData = await postResponse.json();
-          throw new Error(`Error: ${errorData.errors[0].message}`);
-        }
-    
-        console.log("Posted to Medium successfully.");
-        return true; // Indicate success
-      } catch (err) {
-        console.error("Failed to post to Medium:", err);
-        return null; // Indicate failure
+  
+      const response = await fetch('/api/postToMedium', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ postContent, mediumToken }),
+      });
+  
+      if (!response.ok) {
+        throw new Error('Failed to post to Medium');
       }
-    };
-
+  
+      const result = await response.json();
+      console.log('Posted to Medium successfully:', result);
+      return result; // Return result for further checks
+    } catch (error) {
+      console.error('Error posting to Medium:', error);
+      throw error; // Rethrow to handle in the main function
+    }
+  };
+  
   const [stepStatus, setStepStatus] = useState({
     FetchingPosts: "Not Started",
     RepurposingContent: "Not Started",
@@ -273,7 +222,7 @@ You will not reply with anything other than the repurposed blog post.`;
     PostingToLinkedin: "Not Started",
     PostingToMedium: "Not Started",
   });
-
+  
   const handleStartProcess = async () => {
     // Step 1: Fetching Posts (Mandatory)
     setStepStatus((prevStatus) => ({
@@ -310,7 +259,7 @@ You will not reply with anything other than the repurposed blog post.`;
       ...prevStatus,
       RepurposingContent: "Success",
       PostingToTwitter: "In Progress",
-      PostingToLinkedin: "In Progress", // All start "In Progress"
+      PostingToLinkedin: "In Progress",
       PostingToMedium: "In Progress",
     }));
   
@@ -318,9 +267,6 @@ You will not reply with anything other than the repurposed blog post.`;
     // Post to Twitter
     try {
       const twitterResult = await postToTwitterLogic(repurposedData.twitter);
-      if (!twitterResult) {
-        throw new Error("Twitter posting failed.");
-      }
       setStepStatus((prevStatus) => ({
         ...prevStatus,
         PostingToTwitter: "Success",
@@ -336,9 +282,6 @@ You will not reply with anything other than the repurposed blog post.`;
     // Post to LinkedIn
     try {
       const linkedinResult = await postToLinkedInLogic(repurposedData.linkedin);
-      if (!linkedinResult) {
-        throw new Error("LinkedIn posting failed.");
-      }
       setStepStatus((prevStatus) => ({
         ...prevStatus,
         PostingToLinkedin: "Success",
@@ -354,9 +297,6 @@ You will not reply with anything other than the repurposed blog post.`;
     // Post to Medium
     try {
       const mediumResult = await postToMediumLogic(repurposedData.medium);
-      if (!mediumResult) {
-        throw new Error("Medium posting failed.");
-      }
       setStepStatus((prevStatus) => ({
         ...prevStatus,
         PostingToMedium: "Success",
