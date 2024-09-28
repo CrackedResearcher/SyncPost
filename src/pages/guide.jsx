@@ -1,7 +1,7 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 
 const Guide = () => {
-  const clientId = import.meta.env.VITE_LINKEDIN_CLIENT_ID;
+    const clientId = import.meta.env.VITE_LINKEDIN_CLIENT_ID;
   const redirectUri = import.meta.env.VITE_REDIRECT_URI || `${window.location.origin}/callback`;
 
   const initiateLinkedInAuth = () => {
@@ -13,28 +13,62 @@ const Guide = () => {
     // Implement Twitter auth initiation
     alert('Twitter auth not implemented yet');
   };
-
-  return (
-    <div className="flex items-center justify-center min-h-screen bg-black">
-      <div className="bg-gray-900 text-green-400 font-mono p-8 rounded-lg shadow-lg w-full max-w-3xl">
-        {/* ... (rest of your JSX remains the same) ... */}
-        <button
-          onClick={initiateLinkedInAuth}
-          className="bg-green-600 text-white rounded-lg px-4 py-2 hover:bg-green-700 mt-4"
-        >
-          Generate LinkedIn Token
-        </button>
-        {/* ... */}
-        <button
-          onClick={initiateTwitterAuth}
-          className="bg-green-600 text-white rounded-lg px-4 py-2 hover:bg-green-700 mt-4"
-        >
-          Generate Twitter Token
-        </button>
-        {/* ... */}
+  
+    return (
+      <div className="flex items-center justify-center min-h-screen bg-black">
+        <div className="bg-gray-900 text-green-400 font-mono p-8 rounded-lg shadow-lg w-full max-w-3xl">
+          <h1 className="text-4xl font-bold mb-6 mt-6 text-green-300">Token Generation Guide</h1>
+  
+          <section className="mb-8">
+            <h2 className="text-2xl font-semibold mb-2 text-green-300">Medium</h2>
+            <ol className="list-decimal list-inside mb-4">
+              <li>
+                Go to 
+                <a href="https://medium.com/me/settings" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline"> Medium Settings Page</a>
+              </li>
+              <li>Scroll down to the "Integration tokens" section</li>
+              <li>Click on "Get integration token"</li>
+              <li>Copy the generated token</li>
+              <li>Paste the token into the Medium token field in our app</li>
+            </ol>
+          </section>
+  
+          <section className="mb-8">
+            <h2 className="text-2xl font-semibold mb-2 text-green-300">LinkedIn</h2>
+            <ol className="list-decimal list-inside mb-4">
+              <li>Make sure you're logged into your LinkedIn account</li>
+              <li>Click the "Generate LinkedIn Token" button below</li>
+              <li>You'll be redirected to LinkedIn's authorization page</li>
+              <li>Review the permissions and click "Allow"</li>
+              <li>You'll be redirected back to our app, and your token will be stored</li>
+            </ol>
+            <button 
+              onClick={initiateLinkedInAuth}
+              className="bg-green-600 text-white rounded-lg px-4 py-2 hover:bg-green-700 mt-4"
+            >
+              Generate LinkedIn Token
+            </button>
+          </section>
+  
+          <section className="mb-8">
+            <h2 className="text-2xl font-semibold mb-2 text-green-300">Twitter (X)</h2>
+            <ol className="list-decimal list-inside mb-4">
+              <li>Ensure you're logged into your Twitter account</li>
+              <li>Click the "Generate Twitter Token" button below</li>
+              <li>You'll be taken to Twitter's authorization page</li>
+              <li>Review the permissions and click "Authorize app"</li>
+              <li>You'll be brought back to our app, and your token will be stored</li>
+            </ol>
+            <button 
+              onClick={initiateTwitterAuth}
+              className="bg-green-600 text-white rounded-lg px-4 py-2 hover:bg-green-700 mt-4"
+            >
+              Generate Twitter Token
+            </button>
+          </section>
+        </div>
       </div>
-    </div>
-  );
-};
-
-export default Guide;
+    );
+  };
+  
+  export default Guide;
