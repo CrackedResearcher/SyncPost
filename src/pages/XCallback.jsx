@@ -1,48 +1,63 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 const XCallback = () => {
   const [status, setStatus] = useState('Processing authentication...');
+  const navigate = useNavigate();
+  const location = useLocation();
+
 
   useEffect(() => {
-    const fetchAccessToken = async (code) => {
-      try {
-        console.log('Exchanging code for access token:', code);
-        const response = await fetch('/api/twitter-token-exchange', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ code }),
-        });
-
-        const data = await response.json();
-        if (response.ok) {
-          localStorage.setItem('twitter_access_token', data.access_token);
-          setStatus('Access token stored successfully! Redirecting to guide...');
-          setTimeout(() => {
-            window.location.href = '/guide';
-          }, 2000);
-        } else {
-          setStatus(`Error fetching access token: ${data.message}`);
-          console.error('Error response:', data.message);
+    const handleCallback = async () => {
+      const params = new URLSearchParams(location.search);
+      const code = params.get('code');
+      const state = params.get('state');
+  
+      if (code && state) {
+        const storedState = localStorage.getItem('twitterOAuthState');
+        if (state !== storedState) {
+          setStatus('Invalid state. Authentication failed.');
+          return;
         }
-      } catch (error) {
-        setStatus(`Error: ${error.message}`);
-        console.error('Fetch error:', error);
+  
+        try {
+          const response = await fetch('/api/twitter-callback', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              code,
+              codeVerifier: localStorage.getItem('twitterOAuthCodeChallenge'),
+            }),
+          });
+  
+          if (!response.ok) {
+            throw new Error('Failed to exchange code for tokens');
+          }
+  
+          const { access_token, refresh_token } = await response.json();
+  
+          localStorage.setItem('twitterAccessToken', access_token);
+          localStorage.setItem('twitterRefreshToken', refresh_token);
+  
+          // Clear OAuth state and code challenge
+          localStorage.removeItem('twitterOAuthState');
+          localStorage.removeItem('twitterOAuthCodeChallenge');
+  
+          setStatus('Authentication successful. Redirecting...');
+          navigate('/guide');
+        } catch (error) {
+          console.error('Error during token exchange:', error);
+          setStatus('Authentication failed. Please try again.');
+        }
+      } else {
+        setStatus('Invalid callback parameters');
       }
     };
-
-    const params = new URLSearchParams(window.location.search);
-    const code = params.get('code');
-    const error = params.get('error');
-
-    if (code) {
-      fetchAccessToken(code);
-    } else if (error) {
-      setStatus(`Authentication error: ${error}`);
-      console.error('Authentication error:', error);
-    } else {
-      setStatus('No authorization code or error found');
-    }
-  }, []);
+  
+    handleCallback();
+  }, [location, navigate]);
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-black">

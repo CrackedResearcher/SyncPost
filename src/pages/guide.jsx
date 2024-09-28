@@ -10,12 +10,6 @@ const Guide = () => {
   
     const [mediumToken, setMediumToken] = useState("");
   
-    const generateRandomState = () => {
-      return (
-        Math.random().toString(36).substring(2, 15) +
-        Math.random().toString(36).substring(2, 15)
-      );
-    };
 
   const initiateLinkedInAuth = () => {
     const linkedInAuthUrl = `https://www.linkedin.com/oauth/v2/authorization?response_type=code&client_id=${clientId}&redirect_uri=${encodeURIComponent(
@@ -25,46 +19,20 @@ const Guide = () => {
   };
 
   const initiateTwitterAuth = () => {
-    const randomState = generateRandomState();
-    const codeVerifier = generateCodeVerifier();
-    const codeChallenge = generateCodeChallenge(codeVerifier);
+    console.log("the values of all auth param are: ", x_callback_url, x_client_id)
+    const scopes = encodeURIComponent('tweet.read users.read tweet.write offline.access');
+    const state = encodeURIComponent(Math.random().toString(36).substring(7));
+    const codeChallenge = encodeURIComponent(Math.random().toString(36).substring(7));
 
-    // Store the code verifier in localStorage to use it in the callback
-    localStorage.setItem('twitter_code_verifier', codeVerifier);
+    localStorage.setItem('twitterOAuthState', state);
+    localStorage.setItem('twitterOAuthCodeChallenge', codeChallenge);
 
-    const xAuthUrl = `https://twitter.com/i/oauth2/authorize?response_type=code&client_id=${x_client_id}&redirect_uri=${encodeURIComponent(
-      x_callback_url
-    )}&scope=tweet.read%20tweet.write%20users.read&state=${randomState}&code_challenge=${codeChallenge}&code_challenge_method=S256`;
-    
-    console.log("Redirecting to Twitter Auth URL:", xAuthUrl);
-    window.location.href = xAuthUrl;
+    const authUrl = `https://twitter.com/i/oauth2/authorize?response_type=code&client_id=${x_client_id}&redirect_uri=${x_callback_url}&scope=${scopes}&state=${state}&code_challenge=${codeChallenge}&code_challenge_method=plain`;
+
+    window.location.href = authUrl;
   };
 
-  const generateCodeVerifier = () => {
-    const array = new Uint32Array(56/2);
-    window.crypto.getRandomValues(array);
-    return Array.from(array, dec => ('0' + dec.toString(16)).substr(-2)).join('');
-  };
-
-  const generateCodeChallenge = (verifier) => {
-    return base64URLEncode(sha256(verifier));
-  };
-
-  const sha256 = async (plain) => {
-    const encoder = new TextEncoder();
-    const data = encoder.encode(plain);
-    const hash = await window.crypto.subtle.digest('SHA-256', data);
-    return Array.from(new Uint8Array(hash))
-      .map(b => b.toString(16).padStart(2, '0'))
-      .join('');
-  };
-
-  const base64URLEncode = (str) => {
-    return btoa(String.fromCharCode.apply(null, new Uint8Array(str)))
-      .replace(/\+/g, '-')
-      .replace(/\//g, '_')
-      .replace(/=/g, '');
-  };
+  
 
   const handleSaveToken = () => {
     localStorage.setItem("mediumToken", mediumToken);
