@@ -8,7 +8,14 @@ const XCallback = () => {
 
   useEffect(() => {
     const fetchAccessToken = async (code) => {
+      const codeVerifier = localStorage.getItem('twitter_code_verifier');
+      if (!codeVerifier) {
+        setStatus('Error: No code verifier found');
+        return;
+      }
+
       try {
+        console.log('Fetching access token with code:', code);
         const response = await fetch('https://api.twitter.com/2/oauth2/token', {
           method: 'POST',
           headers: {
@@ -16,36 +23,46 @@ const XCallback = () => {
           },
           body: new URLSearchParams({
             grant_type: 'authorization_code',
-            code: code,
+            code,
             redirect_uri: x_callback_url,
             client_id: x_client_id,
-            code_verifier: 'challenge',
+            code_verifier: codeVerifier,
             client_secret: x_client_secret,
           }),
         });
 
+        const responseText = await response.text();
+        console.log('Token exchange response:', responseText);
+
         if (response.ok) {
-          const data = await response.json();
+          const data = JSON.parse(responseText);
           localStorage.setItem('twitter_access_token', data.access_token);
           setStatus('Access token stored successfully! Redirecting to guide...');
           setTimeout(() => {
             window.location.href = '/guide';
           }, 2000);
         } else {
-          const errorData = await response.json();
-          setStatus(`Error fetching access token: ${errorData.error_description || response.statusText}`);
+          setStatus(`Error fetching access token: ${response.status} ${response.statusText}`);
+          console.error('Error response:', responseText);
         }
       } catch (error) {
         setStatus(`Error: ${error.message}`);
+        console.error('Fetch error:', error);
       }
     };
 
     const params = new URLSearchParams(window.location.search);
     const code = params.get('code');
+    const error = params.get('error');
+    const errorDescription = params.get('error_description');
+
     if (code) {
       fetchAccessToken(code);
+    } else if (error) {
+      setStatus(`Authentication error: ${error} - ${errorDescription}`);
+      console.error('Authentication error:', error, errorDescription);
     } else {
-      setStatus('No authorization code found');
+      setStatus('No authorization code or error found');
     }
   }, []);
 
