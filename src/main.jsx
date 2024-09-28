@@ -9,6 +9,7 @@ import CollectInfo from './pages/CollectInfo.jsx';
 import RunTool from './pages/runTool.jsx';
 import Guide from './pages/guide.jsx';
 import Callback from './pages/Callback.jsx';
+import XCallback from './pages/XCallback.jsx';
 
 const Main = () => (
   <Router>
@@ -19,6 +20,7 @@ const Main = () => (
       <Route path="/open" element={<RunTool />} />
       <Route path="/guide" element={<Guide />} />
       <Route path="/callback" element={<Callback />} />
+      <Route path="/xcallback" element={<XCallback />} />
     </Routes>
   </Router>
 );

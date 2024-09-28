@@ -4,8 +4,18 @@ const Guide = () => {
   const clientId = import.meta.env.VITE_LINKEDIN_CLIENT_ID;
   const redirectUri =
     import.meta.env.VITE_REDIRECT_URI || `${window.location.origin}/callback`;
+  const x_callback_url =
+    import.meta.env.VITE_XREDIRECT_URI || `${window.location.origin}/xcallback`;
+  const x_client_id = import.meta.env.VITE_X_CLIENT_ID;
 
   const [mediumToken, setMediumToken] = useState("");
+
+  const generateRandomState = () => {
+    return (
+      Math.random().toString(36).substring(2, 15) +
+      Math.random().toString(36).substring(2, 15)
+    );
+  };
 
   const initiateLinkedInAuth = () => {
     const linkedInAuthUrl = `https://www.linkedin.com/oauth/v2/authorization?response_type=code&client_id=${clientId}&redirect_uri=${encodeURIComponent(
@@ -15,8 +25,11 @@ const Guide = () => {
   };
 
   const initiateTwitterAuth = () => {
-    // Implement Twitter auth initiation
-    alert("Twitter auth not implemented yet");
+    const randomState = generateRandomState();
+    const xAuthUrl = `https://x.com/i/oauth2/authorize?response_type=code&client_id=${x_client_id}&redirect_uri=${encodeURIComponent(
+      x_callback_url
+    )}&scope=tweet.read%20tweet.write&state=${randomState}`;
+    window.location.href = xAuthUrl;
   };
 
   const handleSaveToken = () => {
@@ -32,7 +45,8 @@ const Guide = () => {
         </h1>
         <p className="mb-10">
           All tokens generated below will be automatically stored. Simply click
-          the buttons, complete the desired steps and then return back to the original form, and submit it.
+          the buttons, complete the desired steps and then return back to the
+          original form, and submit it.
         </p>
         <section className="mb-8">
           <h2 className="text-2xl font-semibold mb-2 text-green-300">Medium</h2>
@@ -109,7 +123,6 @@ const Guide = () => {
           </ol>
           <button
             onClick={initiateTwitterAuth}
-            
             className="bg-green-600 text-white rounded-lg px-4 py-2 hover:bg-green-700 mt-4"
           >
             Generate Twitter Token
