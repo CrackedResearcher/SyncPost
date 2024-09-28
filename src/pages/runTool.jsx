@@ -66,9 +66,7 @@ const RunTool = () => {
 
         switch (i) {
           case 1:
-            injectPrompt = `You are a writing assistant capable of repurposing blog content into long-form posts for Twitter. Your task is not to rewrite the entire content, but to match the original writing style and repurpose it for Twitter’s longer format, without worrying about word limits. Twitter now supports longer tweets, so there is no need to focus on brevity. Additionally, do not use hashtags. Simply craft a well-written, repurposed post.
-
-You will not reply with anything other than the repurposed blog post.`;
+            injectPrompt = `You are a writing assistant capable of repurposing blog content into long-form posts for Twitter. write the tweet in less than 20 words or just reply hi`;
             break;
           case 2:
             injectPrompt = `You are a writing assistant capable of repurposing blog content into posts for LinkedIn. Your task is not to rewrite the entire content but to match the original writing style and adapt it for LinkedIn’s format. You are allowed to use hashtags where relevant. Focus on creating a well-written and engaging post that fits the tone and style of the original content.
@@ -132,17 +130,32 @@ You will not reply with anything other than the repurposed blog post.`;
     });
   };
 
-  // For the post logic, return `null` if the process fails
-  const postToTwitterLogic = () =>
-    new Promise((resolve) =>
-      setTimeout(() => {
-        console.log("Posted to Twitter successfully.");
-        resolve(true);
-      }, 1000)
-    ).catch((err) => {
+  const postToTwitterLogic = async (tweetContent) => {
+    const accessToken = localStorage.getItem("twitterAccessToken");
+    try {
+      const response = await fetch('https://api.twitter.com/2/tweets', {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          text: tweetContent,
+        }),
+      });
+  
+      if (!response.ok) {
+        throw new Error(`Failed to post to Twitter: ${response.statusText}`);
+      }
+  
+      const result = await response.json();
+      console.log("Posted to Twitter successfully:", result);
+      return result;
+    } catch (err) {
       console.error("Failed to post to Twitter:", err);
       return null;
-    });
+    }
+  };
 
     const postToLinkedInLogic = async (postContent) => {
       const socialMediaIds = JSON.parse(localStorage.getItem("socialMediaIds") || "{}");

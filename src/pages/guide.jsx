@@ -19,7 +19,6 @@ const Guide = () => {
   };
 
   const initiateTwitterAuth = () => {
-    console.log("the values of all auth param are: ", x_callback_url, x_client_id)
     const scopes = encodeURIComponent('tweet.read users.read tweet.write offline.access');
     const state = encodeURIComponent(Math.random().toString(36).substring(7));
     const codeChallenge = encodeURIComponent(Math.random().toString(36).substring(7));
