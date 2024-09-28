@@ -169,7 +169,7 @@ You will not reply with anything other than the repurposed blog post.`;
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ postContent, accessToken, linkedinId }),
+        body: JSON.stringify({ postContent, accessToken }),
       });
   
       if (!response.ok) {
@@ -187,8 +187,7 @@ You will not reply with anything other than the repurposed blog post.`;
   
   const postToMediumLogic = async (postContent) => {
     try {
-      const tokens = JSON.parse(localStorage.getItem('tokens') || "{}");
-      const mediumToken = tokens.mediumToken;
+      const mediumToken = JSON.parse(localStorage.getItem('mediumToken') || "{}");
   
       if (!mediumToken) {
         throw new Error('Medium token not found.');
