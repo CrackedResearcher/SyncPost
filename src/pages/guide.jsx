@@ -5,9 +5,9 @@ const Guide = () => {
   const redirectUri = import.meta.env.VITE_REDIRECT_URI || `${window.location.origin}/callback`;
 
   const initiateLinkedInAuth = () => {
-    const linkedInAuthUrl = `https://www.linkedin.com/oauth/v2/authorization?response_type=code&client_id=${clientId}&redirect_uri=${encodeURIComponent(redirectUri)}&state=${Date.now()}&scope=r_liteprofile%20r_emailaddress%20w_member_social`;
+    const linkedInAuthUrl = `https://www.linkedin.com/oauth/v2/authorization?response_type=code&client_id=${clientId}&redirect_uri=${encodeURIComponent(redirectUri)}&state=${Date.now()}&scope=openid%20profile%20email%20w_member_social`;
     window.location.href = linkedInAuthUrl;
-  };
+};
 
   const initiateTwitterAuth = () => {
     // Implement Twitter auth initiation
