@@ -1,21 +1,21 @@
 import React, { useState, useEffect } from "react";
 
 const Guide = () => {
-  const clientId = import.meta.env.VITE_LINKEDIN_CLIENT_ID;
-  const redirectUri =
-    import.meta.env.VITE_REDIRECT_URI || `${window.location.origin}/callback`;
-  const x_callback_url =
-    import.meta.env.VITE_XREDIRECT_URI || `${window.location.origin}/xcallback`;
-  const x_client_id = import.meta.env.VITE_X_CLIENT_ID;
-
-  const [mediumToken, setMediumToken] = useState("");
-
-  const generateRandomState = () => {
-    return (
-      Math.random().toString(36).substring(2, 15) +
-      Math.random().toString(36).substring(2, 15)
-    );
-  };
+    const clientId = import.meta.env.VITE_LINKEDIN_CLIENT_ID;
+    const redirectUri =
+      import.meta.env.VITE_REDIRECT_URI || `${window.location.origin}/callback`;
+    const x_callback_url =
+      import.meta.env.VITE_XREDIRECT_URI || `${window.location.origin}/xcallback`;
+    const x_client_id = import.meta.env.VITE_X_CLIENT_ID;
+  
+    const [mediumToken, setMediumToken] = useState("");
+  
+    const generateRandomState = () => {
+      return (
+        Math.random().toString(36).substring(2, 15) +
+        Math.random().toString(36).substring(2, 15)
+      );
+    };
 
   const initiateLinkedInAuth = () => {
     const linkedInAuthUrl = `https://www.linkedin.com/oauth/v2/authorization?response_type=code&client_id=${clientId}&redirect_uri=${encodeURIComponent(
@@ -26,9 +26,9 @@ const Guide = () => {
 
   const initiateTwitterAuth = () => {
     const randomState = generateRandomState();
-    const xAuthUrl = `https://x.com/i/oauth2/authorize?response_type=code&client_id=${x_client_id}&redirect_uri=${encodeURIComponent(
+    const xAuthUrl = `https://twitter.com/i/oauth2/authorize?response_type=code&client_id=${x_client_id}&redirect_uri=${encodeURIComponent(
       x_callback_url
-    )}&scope=tweet.read%20tweet.write&state=${randomState}`;
+    )}&scope=tweet.read%20tweet.write%20users.read&state=${randomState}&code_challenge=challenge&code_challenge_method=plain`;
     window.location.href = xAuthUrl;
   };
 
