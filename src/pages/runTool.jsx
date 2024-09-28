@@ -1,5 +1,5 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
-import React, { useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 
 const RunTool = () => {
   const isValidUrl = (url) => {
@@ -17,7 +17,6 @@ const RunTool = () => {
 
   const [blogUrl, setBlogUrl] = useState("");
   const [fetchedBlog, setfetchedblog] = useState("");
-  
 
   const fetchPostsLogic = async () => {
     try {
@@ -126,7 +125,7 @@ You will not reply with anything other than the repurposed blog post.`;
             default:
               break;
           }
-          return resolve(null); 
+          return resolve(null);
         }
       }
       resolve(repurposedContents);
@@ -145,29 +144,114 @@ You will not reply with anything other than the repurposed blog post.`;
       return null;
     });
 
-
-  const postToLinkedInLogic = () =>
-    new Promise((resolve) =>
-      setTimeout(() => {
-        console.log("Posted to LinkedIn successfully.");
-        resolve(true);
-      }, 1000)
-    ).catch((err) => {
-      console.error("Failed to post to LinkedIn:", err);
-      return null;
-    });
+    const postToLinkedInLogic = async (postContent) => {
+      const socialMediaIds = JSON.parse(localStorage.getItem("socialMediaIds") || "{}");
+      const accessToken = localStorage.getItem("linkedinAccessToken");
     
+      const linkedinId = socialMediaIds.linkedin;
+    
+      if (!linkedinId) {
+        console.error("LinkedIn ID not found.");
+        return null;
+      }
+    
+      const postData = {
+        author: `urn:li:person:${linkedinId}`, 
+        lifecycleState: "PUBLISHED",
+        specificContent: {
+          "com.linkedin.ugc.ShareContent": {
+            shareCommentary: {
+              text: postContent,
+            },
+            shareMediaCategory: "NONE", 
+          },
+        },
+        visibility: {
+          "com.linkedin.ugc.MemberNetworkVisibility": "PUBLIC", 
+        },
+      };
+    
+      try {
+        const response = await fetch("https://api.linkedin.com/v2/ugcPosts", {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${accessToken}`, 
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(postData),
+        });
+    
+        if (!response.ok) {
+          const errorData = await response.json();
+          throw new Error(`Error: ${errorData.message}`);
+        }
+    
+        console.log("Posted to LinkedIn successfully.");
+        return true; // Indicate success
+      } catch (err) {
+        console.error("Failed to post to LinkedIn:", err);
+        return null; // Indicate failure
+      }
+    };
 
-  const postToMediumLogic = () =>
-    new Promise((resolve) =>
-      setTimeout(() => {
+    const postToMediumLogic = async (postContent) => {
+      const tokens = JSON.parse(localStorage.getItem("tokens") || "{}");
+
+      const mediumToken = tokens.medium;
+    
+      if (!mediumToken) {
+        console.error("Medium token not found.");
+        return null;
+      }
+    
+      try {
+        const userResponse = await fetch("https://api.medium.com/v1/me", {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${mediumToken}`,
+          },
+        });
+    
+        if (!userResponse.ok) {
+          throw new Error("Failed to fetch Medium user details.");
+        }
+    
+        const userData = await userResponse.json();
+        const userId = userData.data.id; 
+    
+        const postData = {
+          title: "Your Post Title", 
+          contentFormat: "text", // Can be 'html' or 'markdown'
+          content: postContent, // The content of your post
+          canonicalUrl: "", // Optional: Canonical URL of your post
+          tags: [], // Optional: Tags for your post
+          publishStatus: "public", // Can be 'public', 'draft', or 'unlisted'
+        };
+    
+        const postResponse = await fetch(
+          `https://api.medium.com/v1/users/${userId}/posts`,
+          {
+            method: "POST",
+            headers: {
+              Authorization: `Bearer ${mediumToken}`,
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(postData),
+          }
+        );
+    
+        if (!postResponse.ok) {
+          const errorData = await postResponse.json();
+          throw new Error(`Error: ${errorData.errors[0].message}`);
+        }
+    
         console.log("Posted to Medium successfully.");
-        resolve(true);
-      }, 1000)
-    ).catch((err) => {
-      console.error("Failed to post to Medium:", err);
-      return null;
-    });
+        return true; // Indicate success
+      } catch (err) {
+        console.error("Failed to post to Medium:", err);
+        return null; // Indicate failure
+      }
+    };
 
   const [stepStatus, setStepStatus] = useState({
     FetchingPosts: "Not Started",
@@ -178,84 +262,99 @@ You will not reply with anything other than the repurposed blog post.`;
   });
 
   const handleStartProcess = async () => {
+    // Step 1: Fetching Posts (Mandatory)
     setStepStatus((prevStatus) => ({
       ...prevStatus,
       FetchingPosts: "In Progress",
     }));
-
+  
     const data = await fetchPostsLogic();
     if (!data) {
       setStepStatus((prevStatus) => ({
         ...prevStatus,
         FetchingPosts: "Failed",
       }));
-      return;
+      return; // Stop here if fetching posts fails, as it's critical
     }
-
+  
     setStepStatus((prevStatus) => ({
       ...prevStatus,
       FetchingPosts: "Success",
       RepurposingContent: "In Progress",
     }));
-
+  
+    // Step 2: Repurposing Content (Mandatory)
     const repurposedData = await repurposeContentLogic(data);
     if (!repurposedData) {
       setStepStatus((prevStatus) => ({
         ...prevStatus,
         RepurposingContent: "Failed",
       }));
-      return;
+      return; // Stop here if repurposing content fails, as it's critical
     }
-
+  
     setStepStatus((prevStatus) => ({
       ...prevStatus,
       RepurposingContent: "Success",
       PostingToTwitter: "In Progress",
+      PostingToLinkedin: "In Progress", // All start "In Progress"
+      PostingToMedium: "In Progress",
     }));
-
-    const twitterResult = await postToTwitterLogic();
-    if (!twitterResult) {
+  
+    // Step 3: Independent Posting to Platforms
+    // Post to Twitter
+    try {
+      const twitterResult = await postToTwitterLogic(repurposedData.twitter);
+      if (!twitterResult) {
+        throw new Error("Twitter posting failed.");
+      }
+      setStepStatus((prevStatus) => ({
+        ...prevStatus,
+        PostingToTwitter: "Success",
+      }));
+    } catch (error) {
+      console.error("Failed to post to Twitter:", error);
       setStepStatus((prevStatus) => ({
         ...prevStatus,
         PostingToTwitter: "Failed",
       }));
-      return;
     }
-
-    setStepStatus((prevStatus) => ({
-      ...prevStatus,
-      PostingToTwitter: "Success",
-      PostingToLinkedin: "In Progress",
-    }));
-
-    const linkedinResult = await postToLinkedInLogic();
-    if (!linkedinResult) {
+  
+    // Post to LinkedIn
+    try {
+      const linkedinResult = await postToLinkedInLogic(repurposedData.linkedin);
+      if (!linkedinResult) {
+        throw new Error("LinkedIn posting failed.");
+      }
+      setStepStatus((prevStatus) => ({
+        ...prevStatus,
+        PostingToLinkedin: "Success",
+      }));
+    } catch (error) {
+      console.error("Failed to post to LinkedIn:", error);
       setStepStatus((prevStatus) => ({
         ...prevStatus,
         PostingToLinkedin: "Failed",
       }));
-      return;
     }
-
-    setStepStatus((prevStatus) => ({
-      ...prevStatus,
-      PostingToLinkedin: "Success",
-      PostingToMedium: "In Progress",
-    }));
-
-    const mediumResult = await postToMediumLogic();
-    if (!mediumResult) {
+  
+    // Post to Medium
+    try {
+      const mediumResult = await postToMediumLogic(repurposedData.medium);
+      if (!mediumResult) {
+        throw new Error("Medium posting failed.");
+      }
+      setStepStatus((prevStatus) => ({
+        ...prevStatus,
+        PostingToMedium: "Success",
+      }));
+    } catch (error) {
+      console.error("Failed to post to Medium:", error);
       setStepStatus((prevStatus) => ({
         ...prevStatus,
         PostingToMedium: "Failed",
       }));
-      return;
     }
-
-    setStepStatus((prevStatus) => ({
-      ...prevStatus,
-      PostingToMedium: "Success",
-    }));
   };
 
   return (
