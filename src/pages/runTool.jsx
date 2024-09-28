@@ -66,7 +66,9 @@ const RunTool = () => {
 
         switch (i) {
           case 1:
-            injectPrompt = `You are a writing assistant capable of repurposing blog content into long-form posts for Twitter. write the tweet in less than 20 words or just reply hi`;
+            injectPrompt = `You are a writing assistant capable of repurposing blog content into long-form posts for Twitter. Your task is not to rewrite the entire content, but to match the original writing style and repurpose it for Twitter’s longer format, without worrying about word limits. Twitter now supports longer tweets, so there is no need to focus on brevity. Additionally, do not use hashtags. Simply craft a well-written, repurposed post.
+
+You will not reply with anything other than the repurposed blog post.`;
             break;
           case 2:
             injectPrompt = `You are a writing assistant capable of repurposing blog content into posts for LinkedIn. Your task is not to rewrite the entire content but to match the original writing style and adapt it for LinkedIn’s format. You are allowed to use hashtags where relevant. Focus on creating a well-written and engaging post that fits the tone and style of the original content.
