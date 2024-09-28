@@ -1,5 +1,4 @@
 import React, { CSSProperties } from "react";
-
 import { cn } from "../src/lib/utils";
 
 interface RippleProps {
@@ -32,21 +31,20 @@ const Ripple = React.memo(function Ripple({
         return (
           <div
             key={i}
-            className={`absolute animate-ripple rounded-full bg-black/10 shadow-xl border [--i:${i}]`}
-            style={
-              {
-                width: `${size}px`,
-                height: `${size}px`,
-                opacity,
-                animationDelay,
-                borderStyle,
-                borderWidth: "1.4px",
-                borderColor: `hsl(var(--foreground), ${borderOpacity / 100})`,
-                top: "50%",
-                left: "50%",
-                transform: "translate(-50%, -50%) scale(1)",
-              } as CSSProperties
-            }
+            className={`absolute animate-ripple rounded-full bg-black/10 shadow-xl border`}
+            style={{
+              width: `${size}px`,
+              height: `${size}px`,
+              opacity,
+              animationDelay,
+              borderStyle,
+              borderWidth: "1.4px",
+              borderColor: `hsl(var(--foreground), ${borderOpacity / 100})`,
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%) scale(1)",
+              '--i': i, // Custom property defined here
+            } as CSSProperties}
           />
         );
       })}
