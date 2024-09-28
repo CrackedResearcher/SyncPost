@@ -135,7 +135,16 @@ const CollectInfo = () => {
         {/* New Jina AI API Key Field */}
         <div className="mb-4">
           <label className="block text-gray-700 mb-2">
-            Jina AI API Key (generate one <a href="https://jina.ai" className="text-green-600 underline" target="_blank" rel="noopener noreferrer">here</a>):
+            Jina AI API Key (generate one{" "}
+            <a
+              href="https://jina.ai"
+              className="text-green-600 underline"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              here
+            </a>
+            ):
           </label>
           <input
             type="text"
@@ -149,7 +158,16 @@ const CollectInfo = () => {
         {/* Compact Token Type and Input */}
         <div className="mb-4">
           <label className="block text-gray-700 mb-2">
-          Refresh tokens: (generate these <Link to="/guide" className="text-green-600 underline">here</Link>)
+            Refresh tokens: (generate these{" "}
+            <Link
+              to="/guide"
+              className="text-green-600 underline"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              here
+            </Link>
+            )
           </label>
           <div className="flex">
             <select
