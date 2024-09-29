@@ -30,10 +30,9 @@ export default async function handler(req, res) {
     }
 
     const userProfile = await userProfileResponse.json();
-    const linkedinId = userProfile.sub; // Get the LinkedIn ID from the response
+    const linkedinId = userProfile.sub; 
 
-    // Prepare the request to post to LinkedIn
-    const response = await fetch('https://api.linkedin.com/rest/posts', {
+    const response = await fetch('https://api.linkedin.com/v2/ugcPosts', {
       method: 'POST',
       headers: {
         Authorization: `Bearer ${accessToken}`,
