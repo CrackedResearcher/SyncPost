@@ -14,7 +14,7 @@ const Guide = () => {
   const initiateLinkedInAuth = () => {
     const linkedInAuthUrl = `https://www.linkedin.com/oauth/v2/authorization?response_type=code&client_id=${clientId}&redirect_uri=${encodeURIComponent(
       redirectUri
-    )}&state=${Date.now()}&scope=openid%20profile%20email%20w_member_social`;
+    )}&state=${Date.now()}&scope=openid%20profile%20email%20w_member_social%20r_liteprofile`;
     window.location.href = linkedInAuthUrl;
   };
 
