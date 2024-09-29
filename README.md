@@ -2,6 +2,13 @@
 
 Sync your blog posts across all your social media accounts with AI.
 
+---
+<a href="https://sync-post.vercel.app" style="display: inline-block; padding: 10px 20px; font-size: 16px; color: white; background-color: #007BFF; border: none; border-radius: 5px; text-decoration: none;">Try SyncPost</a>
+
+<a href="https://x.com/0xayush1" style="display: inline-block; padding: 10px 20px; font-size: 16px; color: white; background-color: #1DA1F2; border: none; border-radius: 5px; text-decoration: none; margin-left: 10px;">Find me on Twitter</a>
+
+---
+
 <img width="1181" alt="Screenshot 2024-09-29 at 3 51 05 PM" src="https://github.com/user-attachments/assets/3ed53ebf-3b7d-46fd-b174-cf9808664ca9">
 
 
