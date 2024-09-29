@@ -7,10 +7,10 @@ export default {
   theme: {
     extend: {
       spacing: {
-        '15': '3.75rem', // This sets 'py-15' to 3.75rem (60px)
+        '15': '3.75rem', 
       },
       colors: {
-        background: '#c7fff3', // Example color
+        background: '#c7fff3', 
         foreground: '158, 100%, 50%',
         nextButtonforeground: '0 0% 98%',
         nextButtonprimary: '130 50% 98%',
