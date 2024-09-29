@@ -171,7 +171,7 @@ You will not reply with anything other than the repurposed blog post.`;
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ accessToken }),
+        body: JSON.stringify({ postContent, accessToken }),
       });
   
       if (!response.ok) {
