@@ -15,7 +15,7 @@ export default async function handler(req, res) {
 
   try {
     // Fetch user's LinkedIn profile to get the URN
-    const userProfileResponse = await fetch('https://api.linkedin.com/v2/me', {
+    const userProfileResponse = await fetch('https://api.linkedin.com/v2/userinfo', {
       method: 'GET',
       headers: {
         Authorization: `Bearer ${accessToken}`,
@@ -30,7 +30,7 @@ export default async function handler(req, res) {
     }
 
     const userProfile = await userProfileResponse.json();
-    const linkedinId = userProfile.id; // Get the LinkedIn ID from the response
+    const linkedinId = userProfile.sub; // Get the LinkedIn ID from the response
 
     // Prepare the request to post to LinkedIn
     const response = await fetch('https://api.linkedin.com/rest/posts', {

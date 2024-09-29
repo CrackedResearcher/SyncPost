@@ -189,8 +189,8 @@ You will not reply with anything other than the repurposed blog post.`;
   
   const postToMediumLogic = async (postContent) => {
     try {
-      const mediumToken = JSON.parse(localStorage.getItem('mediumToken') || "{}");
-  
+      const mediumToken = localStorage.getItem('mediumToken');  
+      
       if (!mediumToken) {
         throw new Error('Medium token not found.');
       }
@@ -200,19 +200,23 @@ You will not reply with anything other than the repurposed blog post.`;
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ postContent, mediumToken }),
+        body: JSON.stringify({ postContent, mediumToken }), 
       });
   
+      console.log('Response from /api/postToMedium:', response);
+  
       if (!response.ok) {
-        throw new Error('Failed to post to Medium');
+        const errorText = await response.text();  
+        console.error('Error response text:', errorText);
+        throw new Error(`Failed to post to Medium. Status: ${response.status}`);
       }
   
       const result = await response.json();
       console.log('Posted to Medium successfully:', result);
-      return result; // Return result for further checks
+      return result; 
     } catch (error) {
       console.error('Error posting to Medium:', error);
-      throw error; // Rethrow to handle in the main function
+      throw error;  
     }
   };
   
