@@ -46,7 +46,7 @@ export default async function handler(req, res) {
       body: JSON.stringify(postData),
     });
 
-    // Check if the response is OK
+
     if (!postResponse.ok) {
       const errorData = await postResponse.json();
       console.error('Failed to post to Medium:', errorData);

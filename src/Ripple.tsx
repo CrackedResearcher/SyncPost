@@ -43,7 +43,7 @@ const Ripple = React.memo(function Ripple({
               top: "50%",
               left: "50%",
               transform: "translate(-50%, -50%) scale(1)",
-              '--i': i, // Custom property defined here
+              '--i': i, 
             } as CSSProperties}
           />
         );

@@ -3,7 +3,7 @@ import { createRoot } from 'react-dom/client';
 import { BrowserRouter as Router } from 'react-router-dom';
 import App from './App.jsx';
 import './index.css';
-import Intro from './pages/intro'; // Import your Intro component here
+import Intro from './pages/intro'; 
 import { Routes, Route } from 'react-router-dom';
 import CollectInfo from './pages/CollectInfo.jsx';
 import RunTool from './pages/runTool.jsx';

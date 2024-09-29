@@ -12,14 +12,14 @@ const CollectInfo = () => {
     medium: "",
   });
   const [apiKey, setApiKey] = useState("");
-  const [jinaApiKey, setJinaApiKey] = useState(""); // New state for Jina AI API key
+  const [jinaApiKey, setJinaApiKey] = useState(""); 
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
     localStorage.setItem("socialMediaIds", JSON.stringify(socialMediaIds));
     localStorage.setItem("apiKey", apiKey);
-    localStorage.setItem("jinaApiKey", jinaApiKey); // Store Jina AI API key
+    localStorage.setItem("jinaApiKey", jinaApiKey); 
 
     setSocialMediaIds({
       twitter: "",
@@ -27,7 +27,7 @@ const CollectInfo = () => {
       medium: "",
     });
     setApiKey("");
-    setJinaApiKey(""); // Reset Jina AI API key
+    setJinaApiKey(""); 
 
     alert("Data submitted successfully!");
     navigate("/open");
@@ -36,8 +36,8 @@ const CollectInfo = () => {
   const clearLocalStorage = () => {
     localStorage.removeItem("socialMediaIds");
     localStorage.removeItem("apiKey");
-    localStorage.removeItem("jinaApiKey"); // Remove Jina AI API key
-    localStorage.removeItem("tokens"); // Remove all saved tokens
+    localStorage.removeItem("jinaApiKey");
+    localStorage.removeItem("tokens"); 
     localStorage.removeItem("tokenData");
     localStorage.removeItem("tokenType");
     localStorage.removeItem("refreshToken");
@@ -48,7 +48,7 @@ const CollectInfo = () => {
       medium: "",
     });
     setApiKey("");
-    setJinaApiKey(""); // Reset Jina AI API key
+    setJinaApiKey(""); 
 
 
     alert("Local storage cleared!");

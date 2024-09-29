@@ -45,7 +45,7 @@ const RunTool = () => {
       return data.data.content;
     } catch (err) {
       console.error("Error fetching the post:", err);
-      return null; // Return null if the process fails
+      return null; 
     }
   };
 
@@ -149,10 +149,10 @@ You will not reply with anything other than the repurposed blog post.`;
   
       const result = await response.json();
       console.log('Posted to Twitter successfully:', result);
-      return result; // Return result for further checks
+      return result; 
     } catch (error) {
       console.error('Error posting to Twitter:', error);
-      throw error; // Rethrow to handle in the main function
+      throw error; 
     }
   };
   
@@ -180,10 +180,10 @@ You will not reply with anything other than the repurposed blog post.`;
   
       const result = await response.json();
       console.log('Posted to LinkedIn successfully:', result);
-      return result; // Return result for further checks
+      return result; 
     } catch (error) {
       console.error('Error posting to LinkedIn:', error);
-      throw error; // Rethrow to handle in the main function
+      throw error; 
     }
   };
   
@@ -241,7 +241,7 @@ You will not reply with anything other than the repurposed blog post.`;
         ...prevStatus,
         FetchingPosts: "Failed",
       }));
-      return; // Stop here if fetching posts fails, as it's critical
+      return; // Stop here if fetching posts fails-- it's critical
     }
   
     setStepStatus((prevStatus) => ({
@@ -250,14 +250,14 @@ You will not reply with anything other than the repurposed blog post.`;
       RepurposingContent: "In Progress",
     }));
   
-    // Step 2: Repurposing Content (Mandatory)
+    // Step 2: Repurposing Content (impp)
     const repurposedData = await repurposeContentLogic(data);
     if (!repurposedData) {
       setStepStatus((prevStatus) => ({
         ...prevStatus,
         RepurposingContent: "Failed",
       }));
-      return; // Stop here if repurposing content fails, as it's critical
+      return; // Stop here if repurposing content fails-- it's critical
     }
   
     setStepStatus((prevStatus) => ({

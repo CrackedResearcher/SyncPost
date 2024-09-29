@@ -7,14 +7,14 @@ export default async function handler(req, res) {
 
   const { postContent, accessToken } = req.body;
 
-  // Ensure all required fields are provided
+
   if (!postContent || !accessToken) {
     console.error('Missing required fields:', { postContent, accessToken });
     return res.status(400).json({ message: 'Post content and access token are required.' });
   }
 
   try {
-    // Fetch user's LinkedIn profile to get the URN
+
     const userProfileResponse = await fetch('https://api.linkedin.com/v2/userinfo', {
       method: 'GET',
       headers: {
@@ -48,10 +48,9 @@ export default async function handler(req, res) {
       },
     };
     
-    // Convert the data object to a JSON string
+
     const jsonData = JSON.stringify(data);
     
-    // Calculate the content length
     const contentLength = new TextEncoder().encode(jsonData).length;
     
     const response = await fetch('https://api.linkedin.com/v2/ugcPosts', {
@@ -59,12 +58,12 @@ export default async function handler(req, res) {
       headers: {
         Authorization: `Bearer ${accessToken}`,
         'Content-Type': 'application/json',
-        'Content-Length': contentLength.toString(), // Set Content-Length header
+        'Content-Length': contentLength.toString(), 
       },
       body: jsonData,
     });
 
-    // Check if the response is OK
+
     if (!response.ok) {
       const errorData = await response.json();
       console.error('Failed to post to LinkedIn:', errorData);

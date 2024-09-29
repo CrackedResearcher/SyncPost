@@ -10,9 +10,9 @@ export default async function handler(req, res) {
       return res.status(400).json({ message: 'Code is required' });
     }
   
-    const redirectUri = process.env.VITE_REDIRECT_URI; // Ensure this is set in Vercel
-    const clientId = process.env.VITE_LINKEDIN_CLIENT_ID; // Your LinkedIn Client ID
-    const clientSecret = process.env.VITE_LINKEDIN_CLIENT_SECRET; // Your LinkedIn Client Secret
+    const redirectUri = process.env.VITE_REDIRECT_URI; 
+    const clientId = process.env.VITE_LINKEDIN_CLIENT_ID;
+    const clientSecret = process.env.VITE_LINKEDIN_CLIENT_SECRET; 
   
     const params = new URLSearchParams({
       grant_type: 'authorization_code',

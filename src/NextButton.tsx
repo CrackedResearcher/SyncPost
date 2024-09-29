@@ -1,7 +1,3 @@
-// --foreground: 0 0% 98%;
-// --nextButtonprimary: 0 0% 98%;
-// --border: 240 3.7% 15.9%;
-
 "use client";
 
 import React from "react";
