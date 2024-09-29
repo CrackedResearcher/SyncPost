@@ -19,6 +19,7 @@ Sync your blog posts across all your social media accounts with AI.
 - [Contact](#contact)
 
 
+
 ## What is SyncPost?
 
 SyncPost is an AI-powered tool designed for bloggers who want to share their content effortlessly across social media platforms. Many bloggers find it challenging to repurpose their posts for various channels due to time constraints. SyncPost addresses this problem by automating the process.
@@ -94,6 +95,7 @@ To use SyncPost, follow these steps:
 3. **Publish a New Blog Post**: Write and publish a new blog post on your platform or RSS feed.
 4. **Run SyncPost**: Launch SyncPost to automatically fetch your latest post and repurpose it for your connected accounts.
 
+<img width="558" alt="Screenshot 2024-09-29 at 3 52 27 PM" src="https://github.com/user-attachments/assets/bf5e5d51-f43b-49fa-b250-cd056d926bae">
 
 
 ## Configuration
