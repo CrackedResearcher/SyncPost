@@ -6,10 +6,10 @@ Sync your blog posts across all your social media accounts with AI.
 
 <a href="https://sync-post.vercel.app" target="_blank"><img width="110" height="40" alt="image" src="https://github.com/user-attachments/assets/b7c618db-a8a8-4cc7-9936-7fb474fe2b1f"></a>
 
-<a href="https://sync-post.vercel.app" target="_blank"><img width="130" height="40" alt="image" src="https://github.com/user-attachments/assets/c15239d0-be09-4db7-a915-810b1499d60e">
+<a href="https://sync-post.vercel.app" target="_blank"><img width="130" height="40" alt="image" src="https://github.com/user-attachments/assets/dae9cf64-2b21-4417-8a6f-a5a8daed78a2">
 </a> 
 
-<a href="https://twitter.com/0xayush1" target="_blank"><img width="130" height="40" alt="image" src="https://github.com/user-attachments/assets/a84246cb-77e2-48f1-a509-56ab3c653cda">
+<a href="https://x.com/0xayush1" target="_blank"><img width="130" height="40" alt="image" src="https://github.com/user-attachments/assets/86e1d791-12e2-49f3-b8e8-90c5b9ae6768">
 </a>
 
 ---
