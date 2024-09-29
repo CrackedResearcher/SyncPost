@@ -3,10 +3,7 @@
 Sync your blog posts across all your social media accounts with AI.
 
 ---
-<button><a href="https://sync-post.vercel.app" style="display: inline-block; padding: 10px 20px; font-size: 16px; color: white; background-color: #007BFF; border: none; border-radius: 5px; text-decoration: none;">Try SyncPost</a></button>
-
-<button><a href="https://x.com/0xayush1" style="display: inline-block; padding: 10px 20px; font-size: 16px; color: white; background-color: #1DA1F2; border: none; border-radius: 5px; text-decoration: none; margin-left: 10px;">Find me on Twitter</a></button>
-
+<a href="https://sync-post.vercel.app" target="_blank"><img src="https://img.shields.io/badge/Try%20Now-%2300C853.svg?style=flat-square&logo=googlechrome&logoColor=white"/></a> | <a href="https://twitter.com/0xayush1" target="_blank"><img src="https://img.shields.io/badge/Follow%20Me-%231DA1F2.svg?style=flat-square&logo=twitter&logoColor=white"/></a>
 ---
 
 <img width="1181" alt="Screenshot 2024-09-29 at 3 51 05 PM" src="https://github.com/user-attachments/assets/3ed53ebf-3b7d-46fd-b174-cf9808664ca9">
