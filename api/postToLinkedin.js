@@ -71,9 +71,8 @@ export default async function handler(req, res) {
       return res.status(response.status).json({ message: `Failed to post to LinkedIn: ${errorData.errors[0].message}` });
     }
 
-    const result = await response.json();
-    console.log('Posted to LinkedIn successfully:', result);
-    return res.status(200).json({ message: 'Posted to LinkedIn successfully', result });
+    console.log('Posted to LinkedIn successfully:');
+    return res.status(200).json({ message: 'Posted to LinkedIn successfully' });
   } catch (error) {
     console.error('Server error:', error);
     return res.status(500).json({ message: 'Server error', error: error.toString() });
