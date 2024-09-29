@@ -3,9 +3,10 @@
 Sync your blog posts across all your social media accounts with AI.
 
 ---
-<a href="https://sync-post.vercel.app" target="_blank"><img src="https://img.shields.io/badge/Try%20Now-%2300C853.svg?style=flat-square&logo=googlechrome&logoColor=white"/></a> | <a href="https://twitter.com/0xayush1" target="_blank"><img src="https://img.shields.io/badge/Follow%20Me-%231DA1F2.svg?style=flat-square&logo=twitter&logoColor=white"/></a>
+<a href="https://sync-post.vercel.app" target="_blank"><img src="https://img.shields.io/badge/Try%20Now-%2300C853.svg?style=flat-square&logo=googlechrome&logoColor=white"/></a> 
 
-<a href="https://sync-post.vercel.app" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-orange.png" alt="Try SyncPost" height="41" width="174"></a>
+<a href="https://twitter.com/0xayush1" target="_blank"><img src="https://img.shields.io/badge/Follow%20Me-%231DA1F2.svg?style=flat-square&logo=twitter&logoColor=white"/></a>
+
 ---
 
 <img width="1181" alt="Screenshot 2024-09-29 at 3 51 05 PM" src="https://github.com/user-attachments/assets/3ed53ebf-3b7d-46fd-b174-cf9808664ca9">
