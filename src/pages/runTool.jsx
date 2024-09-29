@@ -166,7 +166,7 @@ You will not reply with anything other than the repurposed blog post.`;
         throw new Error('LinkedIn ID not found.');
       }
   
-      const response = await fetch('/api/postToLinkedIn', {
+      const response = await fetch('/api/postToLinkedin', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
