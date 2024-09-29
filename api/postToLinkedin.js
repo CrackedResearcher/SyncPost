@@ -32,26 +32,36 @@ export default async function handler(req, res) {
     const userProfile = await userProfileResponse.json();
     const linkedinId = userProfile.sub; 
 
+    const data = {
+      author: `urn:li:person:${linkedinId}`,
+      lifecycleState: "PUBLISHED",
+      specificContent: {
+        "com.linkedin.ugc.ShareContent": {
+          shareCommentary: {
+            text: postContent,
+          },
+          shareMediaCategory: "NONE",
+        },
+      },
+      visibility: {
+        "com.linkedin.ugc.MemberNetworkVisibility": "PUBLIC",
+      },
+    };
+    
+    // Convert the data object to a JSON string
+    const jsonData = JSON.stringify(data);
+    
+    // Calculate the content length
+    const contentLength = new TextEncoder().encode(jsonData).length;
+    
     const response = await fetch('https://api.linkedin.com/v2/ugcPosts', {
       method: 'POST',
       headers: {
         Authorization: `Bearer ${accessToken}`,
         'Content-Type': 'application/json',
+        'Content-Length': contentLength.toString(), // Set Content-Length header
       },
-      body: JSON.stringify({
-        author: `urn:li:person:${linkedinId}`,
-        commentary: postContent,
-        visibility: {
-          "com.linkedin.ugc.MemberNetworkVisibility": "PUBLIC",
-        },
-        distribution: {
-          feedDistribution: "MAIN_FEED",
-          targetEntities: [],
-          thirdPartyDistributionChannels: [],
-        },
-        lifecycleState: "PUBLISHED",
-        isReshareDisabledByAuthor: false,
-      }),
+      body: jsonData,
     });
 
     // Check if the response is OK
