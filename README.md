@@ -4,7 +4,7 @@ Sync your blog posts across all your social media accounts with AI.
 
 ---
 
-<a href="https://sync-post.vercel.app" target="_blank"><img width="140" height="70" alt="image" src="https://github.com/user-attachments/assets/b7c618db-a8a8-4cc7-9936-7fb474fe2b1f"></a>
+<a href="https://sync-post.vercel.app" target="_blank"><img width="200" height="60" alt="image" src="https://github.com/user-attachments/assets/b7c618db-a8a8-4cc7-9936-7fb474fe2b1f"></a>
 
 <a href="https://sync-post.vercel.app" target="_blank"><img src="https://img.shields.io/badge/Try%20Now-%2300C853.svg?style=flat-square&logo=googlechrome&logoColor=white"/></a> 
 
