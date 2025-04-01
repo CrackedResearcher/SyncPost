@@ -130,5 +130,4 @@ This project is licensed under the [MIT License](LICENSE).
 
 For inquiries or feedback, you can reach me on [Twitter/X](https://x.com/0xayush1).
 
-A bit about me:
-I'm Ayush. I'm building [CalmEmail](https://calmemail.xyz). It’s an AI-powered email assistant built from the ground up for founders to help them manage their inbox using natural language. If you want, you can try it [here](https://calmemail.xyz).
+A bit about me: NaN as of now
