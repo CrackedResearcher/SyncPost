@@ -131,3 +131,5 @@ This project is licensed under the [MIT License](LICENSE).
 For inquiries or feedback, you can reach me on [Twitter/X](https://x.com/0xayush1).
 
 A bit about me: NaN as of now
+
+Note: jina ai might or might not be supported now - havent check their changes for quite a while so things might not work as expected
